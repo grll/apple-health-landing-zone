@@ -104,8 +104,8 @@ def create_interface():
                     db_path = os.path.join(temp_dir, "health_data.db")
                     
                     # Parse the XML file
-                    parser = AppleHealthParser()
-                    parser.parse_file(file_path, db_path)
+                    parser = AppleHealthParser(db_path=db_path)
+                    parser.parse_file(file_path)
                     
                     # Upload the SQLite database (second commit)
                     api.upload_file(
