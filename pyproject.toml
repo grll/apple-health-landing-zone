@@ -7,6 +7,9 @@ requires-python = ">=3.12"
 dependencies = [
     "gradio>=5.34.0",
     "huggingface-hub>=0.33.0",
+    "lxml>=5.4.0",
+    "sqlmodel>=0.0.24",
+    "tqdm>=4.67.1",
 ]
 
 [dependency-groups]

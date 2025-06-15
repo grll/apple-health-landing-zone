@@ -2,6 +2,8 @@ import gradio as gr
 from huggingface_hub import HfApi, create_repo
 from huggingface_hub.utils import RepositoryNotFoundError
 import os
+import tempfile
+from src.parser.parser import AppleHealthParser
 
 
 def create_interface():
@@ -87,14 +89,33 @@ def create_interface():
                     token=token
                 )
                 
-                # Upload the export.xml file
+                # Upload the export.xml file (first commit)
                 api.upload_file(
                     path_or_fileobj=file_path,
                     path_in_repo="export.xml",
                     repo_id=dataset_repo_id,
                     repo_type="dataset",
-                    token=token
+                    token=token,
+                    commit_message="Initial upload: export.xml"
                 )
+                
+                # Parse the XML file and create SQLite database
+                with tempfile.TemporaryDirectory() as temp_dir:
+                    db_path = os.path.join(temp_dir, "health_data.db")
+                    
+                    # Parse the XML file
+                    parser = AppleHealthParser()
+                    parser.parse_file(file_path, db_path)
+                    
+                    # Upload the SQLite database (second commit)
+                    api.upload_file(
+                        path_or_fileobj=db_path,
+                        path_in_repo="health_data.db",
+                        repo_id=dataset_repo_id,
+                        repo_type="dataset",
+                        token=token,
+                        commit_message="Add parsed SQLite database"
+                    )
                 
                 # Create README for dataset
                 dataset_readme = f"""# Apple Health Data
@@ -102,7 +123,8 @@ def create_interface():
 This is a private dataset containing Apple Health export data for {username}.
 
 ## Files
-- `export.xml`: The Apple Health export file
+- `export.xml`: The original Apple Health export file
+- `health_data.db`: SQLite database with parsed health data
 
 ## Associated MCP Server
 - Space: [{space_repo_id}](https://huggingface.co/spaces/{space_repo_id})
@@ -131,7 +153,7 @@ This dataset is private and contains personal health information. Do not share a
                 # Create MCP server app.py
                 mcp_app_content = f'''import gradio as gr
 from huggingface_hub import hf_hub_download
-import xml.etree.ElementTree as ET
+import sqlite3
 import pandas as pd
 from datetime import datetime
 import json
@@ -139,64 +161,98 @@ import json
 # Download the health data
 DATA_REPO = "{dataset_repo_id}"
 
-def load_health_data():
-    """Load and parse the Apple Health export.xml file."""
-    try:
-        # Download the export.xml file from the dataset
-        file_path = hf_hub_download(
-            repo_id=DATA_REPO,
-            filename="export.xml",
-            repo_type="dataset",
-            use_auth_token=True
-        )
-        
-        # Parse the XML file
-        tree = ET.parse(file_path)
-        root = tree.getroot()
-        
-        # Extract records
-        records = []
-        for record in root.findall('.//Record'):
-            records.append(record.attrib)
-        
-        return pd.DataFrame(records)
-    except Exception as e:
-        return None
-
-# Load data on startup
-health_df = load_health_data()
+def get_db_connection():
+    """Get a connection to the SQLite database."""
+    # Download the health_data.db file from the dataset
+    db_path = hf_hub_download(
+        repo_id=DATA_REPO,
+        filename="health_data.db",
+        repo_type="dataset",
+        use_auth_token=True
+    )
+    return sqlite3.connect(db_path)
 
 def query_health_data(query_type, start_date=None, end_date=None):
     """Query the health data based on user input."""
-    if health_df is None:
-        return "Error: Could not load health data."
-    
-    df = health_df.copy()
-    
-    # Filter by date if provided
-    if start_date:
-        df = df[df['startDate'] >= start_date]
-    if end_date:
-        df = df[df['endDate'] <= end_date]
-    
-    if query_type == "summary":
-        # Get summary statistics
-        summary = {{
-            "Total Records": len(df),
-            "Record Types": df['type'].value_counts().to_dict() if 'type' in df.columns else {{}},
-            "Date Range": f"{{df['startDate'].min()}} to {{df['endDate'].max()}}" if 'startDate' in df.columns else "N/A"
-        }}
-        return json.dumps(summary, indent=2)
-    
-    elif query_type == "recent":
-        # Get recent records
-        if 'startDate' in df.columns:
-            recent = df.nlargest(10, 'startDate')[['type', 'value', 'startDate', 'unit']].to_dict('records')
-            return json.dumps(recent, indent=2)
-        return "No date information available"
-    
-    else:
-        return "Invalid query type"
+    try:
+        conn = get_db_connection()
+        
+        if query_type == "summary":
+            # Get summary statistics
+            summary = {{}}
+            
+            # Total records
+            total_records = pd.read_sql_query("SELECT COUNT(*) as count FROM records", conn).iloc[0]['count']
+            summary["Total Records"] = total_records
+            
+            # Record types distribution
+            record_types = pd.read_sql_query(
+                "SELECT type, COUNT(*) as count FROM records GROUP BY type ORDER BY count DESC LIMIT 20", 
+                conn
+            )
+            summary["Top Record Types"] = record_types.set_index('type')['count'].to_dict()
+            
+            # Date range
+            date_range = pd.read_sql_query(
+                "SELECT MIN(start_date) as min_date, MAX(start_date) as max_date FROM records", 
+                conn
+            )
+            summary["Date Range"] = f"{{date_range.iloc[0]['min_date']}} to {{date_range.iloc[0]['max_date']}}"
+            
+            # Workouts count
+            workout_count = pd.read_sql_query("SELECT COUNT(*) as count FROM workouts", conn).iloc[0]['count']
+            summary["Total Workouts"] = workout_count
+            
+            conn.close()
+            return json.dumps(summary, indent=2)
+        
+        elif query_type == "recent":
+            # Build query with date filters
+            query = "SELECT type, value, unit, start_date FROM records"
+            conditions = []
+            
+            if start_date:
+                conditions.append(f"start_date >= '{{start_date}}'")
+            if end_date:
+                conditions.append(f"start_date <= '{{end_date}}'")
+            
+            if conditions:
+                query += " WHERE " + " AND ".join(conditions)
+            
+            query += " ORDER BY start_date DESC LIMIT 20"
+            
+            # Get recent records
+            recent_records = pd.read_sql_query(query, conn)
+            
+            conn.close()
+            return json.dumps(recent_records.to_dict('records'), indent=2)
+        
+        elif query_type == "workouts":
+            # Get recent workouts
+            query = "SELECT workout_activity_type, duration, total_energy_burned, start_date FROM workouts"
+            conditions = []
+            
+            if start_date:
+                conditions.append(f"start_date >= '{{start_date}}'")
+            if end_date:
+                conditions.append(f"start_date <= '{{end_date}}'")
+            
+            if conditions:
+                query += " WHERE " + " AND ".join(conditions)
+            
+            query += " ORDER BY start_date DESC LIMIT 20"
+            
+            workouts = pd.read_sql_query(query, conn)
+            
+            conn.close()
+            return json.dumps(workouts.to_dict('records'), indent=2)
+        
+        else:
+            conn.close()
+            return "Invalid query type"
+            
+    except Exception as e:
+        return f"Error querying database: {{str(e)}}"
 
 # MCP Server Interface
 with gr.Blocks(title="Apple Health MCP Server") as demo:
@@ -205,7 +261,7 @@ with gr.Blocks(title="Apple Health MCP Server") as demo:
     
     with gr.Tab("Query Interface"):
         query_type = gr.Dropdown(
-            choices=["summary", "recent"],
+            choices=["summary", "recent", "workouts"],
             value="summary",
             label="Query Type"
         )
@@ -278,9 +334,10 @@ pandas>=2.0.0
 
 **Private Dataset:** [{dataset_repo_id}]({dataset_url})
 - Your export.xml file has been securely uploaded
+- SQLite database (health_data.db) has been generated from your data
 
 **MCP Server Space:** [{space_repo_id}]({space_url})
-- Query interface for your health data
+- Query interface for your health data using SQLite
 - MCP endpoint configuration included
 
 Both repositories are private and only accessible by you."""
