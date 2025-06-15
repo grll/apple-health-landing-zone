@@ -161,22 +161,23 @@ import json
 # Download the health data
 DATA_REPO = "{dataset_repo_id}"
 
-def get_db_connection():
+def get_db_connection(token=None):
     """Get a connection to the SQLite database."""
     # Download the health_data.db file from the dataset
     db_path = hf_hub_download(
         repo_id=DATA_REPO,
         filename="health_data.db",
         repo_type="dataset",
-        use_auth_token=True
+        token=token
     )
     return sqlite3.connect(db_path)
 
-def execute_sql_query(sql_query):
+def execute_sql_query(sql_query, hf_token=None):
     """Execute any SQL query on the Apple Health SQLite database.
     
     Args:
         sql_query (str): The SQL query to execute
+        hf_token (str): Hugging Face token for accessing private dataset
         
     Returns:
         str: JSON formatted results or error message
@@ -185,7 +186,7 @@ def execute_sql_query(sql_query):
         return "Error: Empty SQL query provided"
     
     try:
-        conn = get_db_connection()
+        conn = get_db_connection(token=hf_token)
         
         # Execute the query
         result = pd.read_sql_query(sql_query, conn)
@@ -206,6 +207,13 @@ with gr.Blocks(title="Apple Health MCP Server") as demo:
         gr.Markdown("### Execute SQL Queries")
         gr.Markdown("Enter any SQL query to execute against your Apple Health SQLite database.")
         
+        hf_token_input = gr.Textbox(
+            label="Hugging Face Token",
+            placeholder="hf_...",
+            type="password",
+            info="Your HF token to access the private dataset. Get it from https://huggingface.co/settings/tokens"
+        )
+        
         sql_input = gr.Textbox(
             label="SQL Query",
             placeholder="SELECT * FROM records LIMIT 10;",
@@ -218,7 +226,7 @@ with gr.Blocks(title="Apple Health MCP Server") as demo:
         
         query_btn.click(
             fn=execute_sql_query,
-            inputs=[sql_input],
+            inputs=[sql_input, hf_token_input],
             outputs=output
         )
     
@@ -234,17 +242,23 @@ with gr.Blocks(title="Apple Health MCP Server") as demo:
                 "apple-health": {{
                     "command": "npx",
                     "args": [
-                        "-y",
-                        "@modelcontextprotocol/server-huggingface",
-                        "{space_repo_id}",
-                        "--use-auth"
-                    ]
+                        "mcp-remote",
+                        "https://huggingface.co/spaces/{space_repo_id}/gradio_api/mcp/sse",
+                        "--header",
+                        "Authorization:${{AUTH_HEADER}}"
+                    ],
+                    "env": {{
+                        "AUTH_HEADER": "Bearer YOUR_HF_TOKEN_HERE"
+                    }}
                 }}
             }}
         }}
         ```
         
-        Add this to your Claude Desktop configuration to query your Apple Health data through Claude.
+        **Setup Instructions:**
+        1. Replace `YOUR_HF_TOKEN_HERE` with your actual Hugging Face token
+        2. Add this configuration to your Claude Desktop config file
+        3. Claude will be able to query your Apple Health data using SQL
         """)
 
 if __name__ == "__main__":
