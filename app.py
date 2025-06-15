@@ -1,0 +1,333 @@
+import gradio as gr
+from huggingface_hub import HfApi, create_repo
+from huggingface_hub.utils import RepositoryNotFoundError
+import os
+
+
+def create_interface():
+    """Create the Gradio interface with OAuth login for Apple Health Landing Zone."""
+    
+    with gr.Blocks(title="Apple Health Landing Zone") as demo:
+        gr.Markdown("# Apple Health Landing Zone")
+        gr.Markdown("Login with your Hugging Face account to create a private dataset for your Apple Health export and an MCP server space.")
+        
+        # OAuth login
+        gr.LoginButton()
+        
+        # User info display
+        user_info = gr.Markdown("")
+        
+        # Upload section (initially hidden)
+        with gr.Column(visible=False) as upload_section:
+            gr.Markdown("### Upload Apple Health Export")
+            gr.Markdown("Upload your export.xml file from Apple Health. This will create:")
+            gr.Markdown("1. A private dataset to store your health data")
+            gr.Markdown("2. A private space with an MCP server to query your data")
+            
+            file_input = gr.File(
+                label="Apple Health export.xml",
+                file_types=[".xml"],
+                type="filepath"
+            )
+            
+            space_name_input = gr.Textbox(
+                label="Project Name",
+                placeholder="my-health-data",
+                info="Enter a name for your health data project (lowercase, no spaces)"
+            )
+            
+            create_btn = gr.Button("Create Landing Zone", variant="primary")
+            create_status = gr.Markdown("")
+        
+        def create_health_landing_zone(file_path: str, project_name: str, oauth_token: gr.OAuthToken | None) -> str:
+            """Create private dataset and MCP server space for Apple Health data."""
+            if not oauth_token:
+                return "❌ Please login first!"
+            
+            if not file_path:
+                return "❌ Please upload your export.xml file!"
+            
+            if not project_name:
+                return "❌ Please enter a project name!"
+            
+            try:
+                # Use the OAuth token
+                token = oauth_token.token
+                if not token:
+                    return "❌ No access token found. Please login again."
+                    
+                api = HfApi(token=token)
+                
+                # Get the current user's username
+                user_info = api.whoami()
+                username = user_info["name"]
+                
+                # Create dataset repository
+                dataset_repo_id = f"{username}/{project_name}-data"
+                space_repo_id = f"{username}/{project_name}-mcp"
+                
+                # Check if repositories already exist
+                try:
+                    api.repo_info(dataset_repo_id, repo_type="dataset")
+                    return f"❌ Dataset '{dataset_repo_id}' already exists!"
+                except RepositoryNotFoundError:
+                    pass
+                
+                try:
+                    api.repo_info(space_repo_id, repo_type="space")
+                    return f"❌ Space '{space_repo_id}' already exists!"
+                except RepositoryNotFoundError:
+                    pass
+                
+                # Create the private dataset
+                dataset_url = create_repo(
+                    repo_id=dataset_repo_id,
+                    repo_type="dataset",
+                    private=True,
+                    token=token
+                )
+                
+                # Upload the export.xml file
+                api.upload_file(
+                    path_or_fileobj=file_path,
+                    path_in_repo="export.xml",
+                    repo_id=dataset_repo_id,
+                    repo_type="dataset",
+                    token=token
+                )
+                
+                # Create README for dataset
+                dataset_readme = f"""# Apple Health Data
+
+This is a private dataset containing Apple Health export data for {username}.
+
+## Files
+- `export.xml`: The Apple Health export file
+
+## Associated MCP Server
+- Space: [{space_repo_id}](https://huggingface.co/spaces/{space_repo_id})
+
+## Privacy
+This dataset is private and contains personal health information. Do not share access with others.
+"""
+                
+                api.upload_file(
+                    path_or_fileobj=dataset_readme.encode(),
+                    path_in_repo="README.md",
+                    repo_id=dataset_repo_id,
+                    repo_type="dataset",
+                    token=token
+                )
+                
+                # Create the MCP server space
+                space_url = create_repo(
+                    repo_id=space_repo_id,
+                    repo_type="space",
+                    space_sdk="gradio",
+                    private=True,
+                    token=token
+                )
+                
+                # Create MCP server app.py
+                mcp_app_content = f'''import gradio as gr
+from huggingface_hub import hf_hub_download
+import xml.etree.ElementTree as ET
+import pandas as pd
+from datetime import datetime
+import json
+
+# Download the health data
+DATA_REPO = "{dataset_repo_id}"
+
+def load_health_data():
+    """Load and parse the Apple Health export.xml file."""
+    try:
+        # Download the export.xml file from the dataset
+        file_path = hf_hub_download(
+            repo_id=DATA_REPO,
+            filename="export.xml",
+            repo_type="dataset",
+            use_auth_token=True
+        )
+        
+        # Parse the XML file
+        tree = ET.parse(file_path)
+        root = tree.getroot()
+        
+        # Extract records
+        records = []
+        for record in root.findall('.//Record'):
+            records.append(record.attrib)
+        
+        return pd.DataFrame(records)
+    except Exception as e:
+        return None
+
+# Load data on startup
+health_df = load_health_data()
+
+def query_health_data(query_type, start_date=None, end_date=None):
+    """Query the health data based on user input."""
+    if health_df is None:
+        return "Error: Could not load health data."
+    
+    df = health_df.copy()
+    
+    # Filter by date if provided
+    if start_date:
+        df = df[df['startDate'] >= start_date]
+    if end_date:
+        df = df[df['endDate'] <= end_date]
+    
+    if query_type == "summary":
+        # Get summary statistics
+        summary = {{
+            "Total Records": len(df),
+            "Record Types": df['type'].value_counts().to_dict() if 'type' in df.columns else {{}},
+            "Date Range": f"{{df['startDate'].min()}} to {{df['endDate'].max()}}" if 'startDate' in df.columns else "N/A"
+        }}
+        return json.dumps(summary, indent=2)
+    
+    elif query_type == "recent":
+        # Get recent records
+        if 'startDate' in df.columns:
+            recent = df.nlargest(10, 'startDate')[['type', 'value', 'startDate', 'unit']].to_dict('records')
+            return json.dumps(recent, indent=2)
+        return "No date information available"
+    
+    else:
+        return "Invalid query type"
+
+# MCP Server Interface
+with gr.Blocks(title="Apple Health MCP Server") as demo:
+    gr.Markdown("# Apple Health MCP Server")
+    gr.Markdown(f"This is an MCP server for querying Apple Health data from dataset: `{{DATA_REPO}}`")
+    
+    with gr.Tab("Query Interface"):
+        query_type = gr.Dropdown(
+            choices=["summary", "recent"],
+            value="summary",
+            label="Query Type"
+        )
+        
+        with gr.Row():
+            start_date = gr.Textbox(label="Start Date (YYYY-MM-DD)", placeholder="2024-01-01")
+            end_date = gr.Textbox(label="End Date (YYYY-MM-DD)", placeholder="2024-12-31")
+        
+        query_btn = gr.Button("Run Query", variant="primary")
+        output = gr.Code(language="json", label="Query Results")
+        
+        query_btn.click(
+            fn=query_health_data,
+            inputs=[query_type, start_date, end_date],
+            outputs=output
+        )
+    
+    with gr.Tab("MCP Endpoint"):
+        gr.Markdown("""
+        ## MCP Server Endpoint
+        
+        This space can be used as an MCP server with the following configuration:
+        
+        ```json
+        {{
+            "mcpServers": {{
+                "apple-health": {{
+                    "command": "npx",
+                    "args": [
+                        "-y",
+                        "@modelcontextprotocol/server-huggingface",
+                        "{space_repo_id}",
+                        "--use-auth"
+                    ]
+                }}
+            }}
+        }}
+        ```
+        
+        Add this to your Claude Desktop configuration to query your Apple Health data through Claude.
+        """)
+
+if __name__ == "__main__":
+    demo.launch()
+'''
+                
+                api.upload_file(
+                    path_or_fileobj=mcp_app_content.encode(),
+                    path_in_repo="app.py",
+                    repo_id=space_repo_id,
+                    repo_type="space",
+                    token=token
+                )
+                
+                # Create requirements.txt for the space
+                requirements_content = """gradio>=5.34.0
+huggingface-hub>=0.20.0
+pandas>=2.0.0
+"""
+                
+                api.upload_file(
+                    path_or_fileobj=requirements_content.encode(),
+                    path_in_repo="requirements.txt",
+                    repo_id=space_repo_id,
+                    repo_type="space",
+                    token=token
+                )
+                
+                return f"""✅ Successfully created Apple Health Landing Zone!
+
+**Private Dataset:** [{dataset_repo_id}]({dataset_url})
+- Your export.xml file has been securely uploaded
+
+**MCP Server Space:** [{space_repo_id}]({space_url})
+- Query interface for your health data
+- MCP endpoint configuration included
+
+Both repositories are private and only accessible by you."""
+                
+            except Exception as e:
+                return f"❌ Error creating landing zone: {str(e)}"
+        
+        def update_ui(profile: gr.OAuthProfile | None) -> tuple:
+            """Update UI based on login status."""
+            if profile:
+                username = profile.username
+                return (
+                    f"✅ Logged in as **{username}**",
+                    gr.update(visible=True)
+                )
+            else:
+                return (
+                    "",
+                    gr.update(visible=False)
+                )
+        
+        # Update UI when login state changes
+        demo.load(update_ui, inputs=None, outputs=[user_info, upload_section])
+        
+        # Create landing zone button click
+        create_btn.click(
+            fn=create_health_landing_zone,
+            inputs=[file_input, space_name_input],
+            outputs=[create_status]
+        )
+    
+    return demo
+
+
+def main():
+    # Check if running in Hugging Face Spaces
+    if os.getenv("SPACE_ID"):
+        # Running in Spaces, launch with appropriate settings
+        demo = create_interface()
+        demo.launch()
+    else:
+        # Running locally, note that OAuth won't work
+        print("Note: OAuth login only works when deployed to Hugging Face Spaces.")
+        print("To test locally, deploy this as a Space with hf_oauth: true in README.md")
+        demo = create_interface()
+        demo.launch()
+
+
+if __name__ == "__main__":
+    main()
