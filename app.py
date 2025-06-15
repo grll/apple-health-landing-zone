@@ -172,110 +172,53 @@ def get_db_connection():
     )
     return sqlite3.connect(db_path)
 
-def query_health_data(query_type, start_date=None, end_date=None):
-    """Query the health data based on user input."""
+def execute_sql_query(sql_query):
+    """Execute any SQL query on the Apple Health SQLite database.
+    
+    Args:
+        sql_query (str): The SQL query to execute
+        
+    Returns:
+        str: JSON formatted results or error message
+    """
+    if not sql_query or not sql_query.strip():
+        return "Error: Empty SQL query provided"
+    
     try:
         conn = get_db_connection()
         
-        if query_type == "summary":
-            # Get summary statistics
-            summary = {{}}
-            
-            # Total records
-            total_records = pd.read_sql_query("SELECT COUNT(*) as count FROM records", conn).iloc[0]['count']
-            summary["Total Records"] = total_records
-            
-            # Record types distribution
-            record_types = pd.read_sql_query(
-                "SELECT type, COUNT(*) as count FROM records GROUP BY type ORDER BY count DESC LIMIT 20", 
-                conn
-            )
-            summary["Top Record Types"] = record_types.set_index('type')['count'].to_dict()
-            
-            # Date range
-            date_range = pd.read_sql_query(
-                "SELECT MIN(start_date) as min_date, MAX(start_date) as max_date FROM records", 
-                conn
-            )
-            summary["Date Range"] = f"{{date_range.iloc[0]['min_date']}} to {{date_range.iloc[0]['max_date']}}"
-            
-            # Workouts count
-            workout_count = pd.read_sql_query("SELECT COUNT(*) as count FROM workouts", conn).iloc[0]['count']
-            summary["Total Workouts"] = workout_count
-            
-            conn.close()
-            return json.dumps(summary, indent=2)
+        # Execute the query
+        result = pd.read_sql_query(sql_query, conn)
+        conn.close()
         
-        elif query_type == "recent":
-            # Build query with date filters
-            query = "SELECT type, value, unit, start_date FROM records"
-            conditions = []
-            
-            if start_date:
-                conditions.append(f"start_date >= '{{start_date}}'")
-            if end_date:
-                conditions.append(f"start_date <= '{{end_date}}'")
-            
-            if conditions:
-                query += " WHERE " + " AND ".join(conditions)
-            
-            query += " ORDER BY start_date DESC LIMIT 20"
-            
-            # Get recent records
-            recent_records = pd.read_sql_query(query, conn)
-            
-            conn.close()
-            return json.dumps(recent_records.to_dict('records'), indent=2)
+        # Convert to JSON
+        return json.dumps(result.to_dict('records'), indent=2)
         
-        elif query_type == "workouts":
-            # Get recent workouts
-            query = "SELECT workout_activity_type, duration, total_energy_burned, start_date FROM workouts"
-            conditions = []
-            
-            if start_date:
-                conditions.append(f"start_date >= '{{start_date}}'")
-            if end_date:
-                conditions.append(f"start_date <= '{{end_date}}'")
-            
-            if conditions:
-                query += " WHERE " + " AND ".join(conditions)
-            
-            query += " ORDER BY start_date DESC LIMIT 20"
-            
-            workouts = pd.read_sql_query(query, conn)
-            
-            conn.close()
-            return json.dumps(workouts.to_dict('records'), indent=2)
-        
-        else:
-            conn.close()
-            return "Invalid query type"
-            
     except Exception as e:
-        return f"Error querying database: {{str(e)}}"
+        return f"Error executing SQL query: {{str(e)}}"
 
 # MCP Server Interface
 with gr.Blocks(title="Apple Health MCP Server") as demo:
     gr.Markdown("# Apple Health MCP Server")
     gr.Markdown(f"This is an MCP server for querying Apple Health data from dataset: `{{DATA_REPO}}`")
     
-    with gr.Tab("Query Interface"):
-        query_type = gr.Dropdown(
-            choices=["summary", "recent", "workouts"],
-            value="summary",
-            label="Query Type"
+    with gr.Tab("SQL Query Interface"):
+        gr.Markdown("### Execute SQL Queries")
+        gr.Markdown("Enter any SQL query to execute against your Apple Health SQLite database.")
+        
+        sql_input = gr.Textbox(
+            label="SQL Query",
+            placeholder="SELECT * FROM records LIMIT 10;",
+            lines=5,
+            info="Enter your SQL query here. Available tables: records, workouts"
         )
         
-        with gr.Row():
-            start_date = gr.Textbox(label="Start Date (YYYY-MM-DD)", placeholder="2024-01-01")
-            end_date = gr.Textbox(label="End Date (YYYY-MM-DD)", placeholder="2024-12-31")
-        
-        query_btn = gr.Button("Run Query", variant="primary")
+        query_btn = gr.Button("Execute Query", variant="primary")
         output = gr.Code(language="json", label="Query Results")
         
         query_btn.click(
-            fn=query_health_data,
-            inputs=[query_type, start_date, end_date],
+            fn=execute_sql_query,
+            inputs=[sql_input],
             outputs=output
         )
     
@@ -305,7 +248,7 @@ with gr.Blocks(title="Apple Health MCP Server") as demo:
         """)
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(mcp_server=True)
 '''
                 
                 api.upload_file(
