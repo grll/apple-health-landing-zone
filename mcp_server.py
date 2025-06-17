@@ -99,7 +99,7 @@ def check_and_parse_if_needed():
             print(f"Error during local parsing: {str(e)}")
             raise
 
-def get_db_connection(token=None):
+def get_db_connection():
     """Get a connection to the SQLite database."""
     if DATA_REPO and IS_HF_SPACE:
         # Running in HF Spaces - download from private dataset
@@ -108,7 +108,7 @@ def get_db_connection(token=None):
                 repo_id=DATA_REPO,
                 filename="health_data.db",
                 repo_type="dataset",
-                token=token or HF_TOKEN
+                token=HF_TOKEN
             )
             return sqlite3.connect(db_path)
         except Exception as e:
@@ -119,7 +119,7 @@ def get_db_connection(token=None):
             raise FileNotFoundError(f"Database file not found: {LOCAL_DB_PATH}. Try restarting the server to trigger auto-parsing.")
         return sqlite3.connect(LOCAL_DB_PATH)
 
-def execute_sql_query(sql_query, hf_token=None):
+def execute_sql_query(sql_query):
     """Execute any SQL query on the Apple Health SQLite database.
     
     Args:
@@ -133,7 +133,7 @@ def execute_sql_query(sql_query, hf_token=None):
         return "Error: Empty SQL query provided"
     
     try:
-        conn = get_db_connection(token=hf_token)
+        conn = get_db_connection()
         
         # Execute the query
         result = pd.read_sql_query(sql_query, conn)
@@ -163,18 +163,7 @@ with gr.Blocks(title="Apple Health MCP Server") as demo:
     with gr.Tab("SQL Query Interface"):
         gr.Markdown("### Execute SQL Queries")
         gr.Markdown("Enter any SQL query to execute against your Apple Health SQLite database.")
-        
-        # Only show token input if running in HF Spaces
-        if IS_HF_SPACE and DATA_REPO:
-            hf_token_input = gr.Textbox(
-                label="Hugging Face Token",
-                placeholder="hf_...",
-                type="password",
-                info="Your HF token to access the private dataset. Get it from https://huggingface.co/settings/tokens"
-            )
-        else:
-            hf_token_input = gr.Textbox(visible=False, value=None)
-        
+
         sql_input = gr.Textbox(
             label="SQL Query",
             placeholder="SELECT * FROM activity_summaries LIMIT 10;",
@@ -203,7 +192,7 @@ with gr.Blocks(title="Apple Health MCP Server") as demo:
         
         query_btn.click(
             fn=execute_sql_query,
-            inputs=[sql_input, hf_token_input],
+            inputs=[sql_input],
             outputs=output
         )
     
