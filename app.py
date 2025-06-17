@@ -99,24 +99,6 @@ def create_interface():
                     commit_message="Initial upload: export.xml"
                 )
                 
-                # Parse the XML file and create SQLite database
-                with tempfile.TemporaryDirectory() as temp_dir:
-                    db_path = os.path.join(temp_dir, "health_data.db")
-                    
-                    # Parse the XML file
-                    parser = AppleHealthParser(db_path=db_path)
-                    parser.parse_file(file_path)
-                    
-                    # Upload the SQLite database (second commit)
-                    api.upload_file(
-                        path_or_fileobj=db_path,
-                        path_in_repo="health_data.db",
-                        repo_id=dataset_repo_id,
-                        repo_type="dataset",
-                        token=token,
-                        commit_message="Add parsed SQLite database"
-                    )
-                
                 # Create README for dataset
                 dataset_readme = f"""# Apple Health Data
 
@@ -150,124 +132,47 @@ This dataset is private and contains personal health information. Do not share a
                     token=token
                 )
                 
-                # Create MCP server app.py
-                mcp_app_content = f'''import gradio as gr
-from huggingface_hub import hf_hub_download
-import sqlite3
-import pandas as pd
-from datetime import datetime
-import json
-
-# Download the health data
-DATA_REPO = "{dataset_repo_id}"
-
-def get_db_connection(token=None):
-    """Get a connection to the SQLite database."""
-    # Download the health_data.db file from the dataset
-    db_path = hf_hub_download(
-        repo_id=DATA_REPO,
-        filename="health_data.db",
-        repo_type="dataset",
-        token=token
-    )
-    return sqlite3.connect(db_path)
-
-def execute_sql_query(sql_query, hf_token=None):
-    """Execute any SQL query on the Apple Health SQLite database.
-    
-    Args:
-        sql_query (str): The SQL query to execute
-        hf_token (str): Hugging Face token for accessing private dataset
-        
-    Returns:
-        str: JSON formatted results or error message
-    """
-    if not sql_query or not sql_query.strip():
-        return "Error: Empty SQL query provided"
-    
-    try:
-        conn = get_db_connection(token=hf_token)
-        
-        # Execute the query
-        result = pd.read_sql_query(sql_query, conn)
-        conn.close()
-        
-        # Convert to JSON
-        return json.dumps(result.to_dict('records'), indent=2)
-        
-    except Exception as e:
-        return f"Error executing SQL query: {{str(e)}}"
-
-# MCP Server Interface
-with gr.Blocks(title="Apple Health MCP Server") as demo:
-    gr.Markdown("# Apple Health MCP Server")
-    gr.Markdown(f"This is an MCP server for querying Apple Health data from dataset: `{{DATA_REPO}}`")
-    
-    with gr.Tab("SQL Query Interface"):
-        gr.Markdown("### Execute SQL Queries")
-        gr.Markdown("Enter any SQL query to execute against your Apple Health SQLite database.")
-        
-        hf_token_input = gr.Textbox(
-            label="Hugging Face Token",
-            placeholder="hf_...",
-            type="password",
-            info="Your HF token to access the private dataset. Get it from https://huggingface.co/settings/tokens"
-        )
-        
-        sql_input = gr.Textbox(
-            label="SQL Query",
-            placeholder="SELECT * FROM records LIMIT 10;",
-            lines=5,
-            info="Enter your SQL query here. Available tables: records, workouts"
-        )
-        
-        query_btn = gr.Button("Execute Query", variant="primary")
-        output = gr.Code(language="json", label="Query Results")
-        
-        query_btn.click(
-            fn=execute_sql_query,
-            inputs=[sql_input, hf_token_input],
-            outputs=output
-        )
-    
-    with gr.Tab("MCP Endpoint"):
-        gr.Markdown("""
-        ## MCP Server Endpoint
-        
-        This space can be used as an MCP server with the following configuration:
-        
-        ```json
-        {{
-            "mcpServers": {{
-                "apple-health": {{
-                    "command": "npx",
-                    "args": [
-                        "mcp-remote",
-                        "https://huggingface.co/spaces/{space_repo_id}/gradio_api/mcp/sse",
-                        "--header",
-                        "Authorization:${{AUTH_HEADER}}"
-                    ],
-                    "env": {{
-                        "AUTH_HEADER": "Bearer YOUR_HF_TOKEN_HERE"
-                    }}
-                }}
-            }}
-        }}
-        ```
-        
-        **Setup Instructions:**
-        1. Replace `YOUR_HF_TOKEN_HERE` with your actual Hugging Face token
-        2. Add this configuration to your Claude Desktop config file
-        3. Claude will be able to query your Apple Health data using SQL
-        """)
-
-if __name__ == "__main__":
-    demo.launch(mcp_server=True)
-'''
+                # Read MCP server code from mcp_server.py 
+                with open('mcp_server.py', 'r') as f:
+                    mcp_app_content = f.read()
                 
+                # Upload the MCP server app.py
                 api.upload_file(
                     path_or_fileobj=mcp_app_content.encode(),
                     path_in_repo="app.py",
+                    repo_id=space_repo_id,
+                    repo_type="space",
+                    token=token
+                )
+                
+                # Upload parser dependencies for auto-parsing functionality
+                api.upload_file(
+                    path_or_fileobj="src/parser/parser.py",
+                    path_in_repo="src/parser/parser.py",
+                    repo_id=space_repo_id,
+                    repo_type="space",
+                    token=token
+                )
+                
+                api.upload_file(
+                    path_or_fileobj="src/parser/models.py",
+                    path_in_repo="src/parser/models.py",
+                    repo_id=space_repo_id,
+                    repo_type="space",
+                    token=token
+                )
+                
+                api.upload_file(
+                    path_or_fileobj="src/parser/__init__.py",
+                    path_in_repo="src/parser/__init__.py",
+                    repo_id=space_repo_id,
+                    repo_type="space",
+                    token=token
+                )
+                
+                api.upload_file(
+                    path_or_fileobj="src/__init__.py",
+                    path_in_repo="src/__init__.py",
                     repo_id=space_repo_id,
                     repo_type="space",
                     token=token
@@ -277,6 +182,9 @@ if __name__ == "__main__":
                 requirements_content = """gradio>=5.34.0
 huggingface-hub>=0.20.0
 pandas>=2.0.0
+lxml>=4.9.0
+sqlmodel>=0.0.8
+tqdm>=4.64.0
 """
                 
                 api.upload_file(
@@ -284,6 +192,22 @@ pandas>=2.0.0
                     path_in_repo="requirements.txt",
                     repo_id=space_repo_id,
                     repo_type="space",
+                    token=token
+                )
+                
+                # Create space variables for the dataset repo ID
+                api.add_space_variable(
+                    repo_id=space_repo_id,
+                    key="DATA_REPO",
+                    value=dataset_repo_id,
+                    token=token
+                )
+                
+                # Add the token as a secret for dataset access
+                api.add_space_secret(
+                    repo_id=space_repo_id,
+                    key="HF_TOKEN",
+                    value=token,
                     token=token
                 )
                 
@@ -296,8 +220,11 @@ pandas>=2.0.0
 **MCP Server Space:** [{space_repo_id}]({space_url})
 - Query interface for your health data using SQLite
 - MCP endpoint configuration included
+- Environment variables automatically configured
+- Fine-grained access token created for secure dataset access
 
-Both repositories are private and only accessible by you."""
+Both repositories are private and only accessible by you.
+The MCP server uses a dedicated token with limited permissions for enhanced security."""
                 
             except Exception as e:
                 return f"❌ Error creating landing zone: {str(e)}"
