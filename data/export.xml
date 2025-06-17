@@ -218,129 +218,129 @@
 >
 ]>
 <HealthData locale="en_US">
- <ExportDate value="2025-01-14 12:00:00 +0100"/>
+ <ExportDate value="2025-06-17 12:00:00 +0100"/>
  <Me HKCharacteristicTypeIdentifierDateOfBirth="1995-01-15" HKCharacteristicTypeIdentifierBiologicalSex="HKBiologicalSexMale" HKCharacteristicTypeIdentifierBloodType="HKBloodTypeNotSet" HKCharacteristicTypeIdentifierFitzpatrickSkinType="HKFitzpatrickSkinTypeNotSet" HKCharacteristicTypeIdentifierCardioFitnessMedicationsUse="None"/>
  
  <!-- Blood Glucose Records -->
- <Record type="HKQuantityTypeIdentifierBloodGlucose" sourceName="Health" sourceVersion="17.3" unit="mmol&lt;180.1558800000541&gt;/L" creationDate="2024-01-09 22:32:54 +0100" startDate="2024-01-09 12:30:00 +0100" endDate="2024-01-09 12:30:00 +0100" value="4.59">
+ <Record type="HKQuantityTypeIdentifierBloodGlucose" sourceName="Health" sourceVersion="17.3" unit="mmol&lt;180.1558800000541&gt;/L" creationDate="2025-05-18 22:32:54 +0100" startDate="2025-05-18 12:30:00 +0100" endDate="2025-05-18 12:30:00 +0100" value="4.59">
   <MetadataEntry key="HKWasUserEntered" value="1"/>
   <MetadataEntry key="HKBloodGlucoseMealTime" value="1"/>
  </Record>
- <Record type="HKQuantityTypeIdentifierBloodGlucose" sourceName="Health" sourceVersion="17.3" unit="mmol&lt;180.1558800000541&gt;/L" creationDate="2024-01-09 22:45:00 +0100" startDate="2024-01-09 18:30:00 +0100" endDate="2024-01-09 18:30:00 +0100" value="5.23">
+ <Record type="HKQuantityTypeIdentifierBloodGlucose" sourceName="Health" sourceVersion="17.3" unit="mmol&lt;180.1558800000541&gt;/L" creationDate="2025-05-18 22:45:00 +0100" startDate="2025-05-18 18:30:00 +0100" endDate="2025-05-18 18:30:00 +0100" value="5.23">
   <MetadataEntry key="HKWasUserEntered" value="1"/>
   <MetadataEntry key="HKBloodGlucoseMealTime" value="2"/>
  </Record>
  
  <!-- Body Mass Index Records -->
- <Record type="HKQuantityTypeIdentifierBodyMassIndex" sourceName="Zepp Life" sourceVersion="202311211629" unit="count" creationDate="2023-12-03 22:41:05 +0100" startDate="2023-12-03 22:38:45 +0100" endDate="2023-12-03 22:38:45 +0100" value="21.3294"/>
- <Record type="HKQuantityTypeIdentifierBodyMassIndex" sourceName="Zepp Life" sourceVersion="202311211629" unit="count" creationDate="2023-12-04 08:50:30 +0100" startDate="2023-12-04 01:07:25 +0100" endDate="2023-12-04 01:07:25 +0100" value="22.4251"/>
+ <Record type="HKQuantityTypeIdentifierBodyMassIndex" sourceName="Zepp Life" sourceVersion="202311211629" unit="count" creationDate="2025-04-18 22:41:05 +0100" startDate="2025-04-18 22:38:45 +0100" endDate="2025-04-18 22:38:45 +0100" value="21.3294"/>
+ <Record type="HKQuantityTypeIdentifierBodyMassIndex" sourceName="Zepp Life" sourceVersion="202311211629" unit="count" creationDate="2025-04-19 08:50:30 +0100" startDate="2025-04-19 01:07:25 +0100" endDate="2025-04-19 01:07:25 +0100" value="22.4251"/>
  
  <!-- Body Mass Records -->
- <Record type="HKQuantityTypeIdentifierBodyMass" sourceName="Zepp Life" sourceVersion="202311211629" unit="kg" creationDate="2023-12-03 22:41:05 +0100" startDate="2023-12-03 22:38:45 +0100" endDate="2023-12-03 22:38:45 +0100" value="68.5"/>
- <Record type="HKQuantityTypeIdentifierBodyMass" sourceName="Zepp Life" sourceVersion="202311211629" unit="kg" creationDate="2023-12-04 08:50:30 +0100" startDate="2023-12-04 01:07:25 +0100" endDate="2023-12-04 01:07:25 +0100" value="72"/>
+ <Record type="HKQuantityTypeIdentifierBodyMass" sourceName="Zepp Life" sourceVersion="202311211629" unit="kg" creationDate="2025-04-18 22:41:05 +0100" startDate="2025-04-18 22:38:45 +0100" endDate="2025-04-18 22:38:45 +0100" value="68.5"/>
+ <Record type="HKQuantityTypeIdentifierBodyMass" sourceName="Zepp Life" sourceVersion="202311211629" unit="kg" creationDate="2025-04-19 08:50:30 +0100" startDate="2025-04-19 01:07:25 +0100" endDate="2025-04-19 01:07:25 +0100" value="72"/>
  
  <!-- Heart Rate Records -->
- <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count/min" creationDate="2023-11-20 19:26:08 +0100" startDate="2023-11-20 19:20:56 +0100" endDate="2023-11-20 19:20:56 +0100" value="56">
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count/min" creationDate="2025-05-28 19:26:08 +0100" startDate="2025-05-28 19:20:56 +0100" endDate="2025-05-28 19:20:56 +0100" value="56">
   <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
  </Record>
- <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count/min" creationDate="2023-11-20 19:42:40 +0100" startDate="2023-11-20 19:42:39 +0100" endDate="2023-11-20 19:42:39 +0100" value="96">
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count/min" creationDate="2025-05-28 19:42:40 +0100" startDate="2025-05-28 19:42:39 +0100" endDate="2025-05-28 19:42:39 +0100" value="96">
   <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="1"/>
  </Record>
- <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count/min" creationDate="2023-11-20 19:59:33 +0100" startDate="2023-11-20 19:59:19 +0100" endDate="2023-11-20 19:59:19 +0100" value="150">
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count/min" creationDate="2025-05-28 19:59:33 +0100" startDate="2025-05-28 19:59:19 +0100" endDate="2025-05-28 19:59:19 +0100" value="150">
   <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="2"/>
  </Record>
  
  <!-- Step Count Records -->
- <Record type="HKQuantityTypeIdentifierStepCount" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count" creationDate="2023-11-20 14:15:00 +0100" startDate="2023-11-20 14:00:00 +0100" endDate="2023-11-20 14:15:00 +0100" value="234"/>
- <Record type="HKQuantityTypeIdentifierStepCount" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count" creationDate="2023-11-20 14:30:00 +0100" startDate="2023-11-20 14:15:00 +0100" endDate="2023-11-20 14:30:00 +0100" value="456"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count" creationDate="2025-05-28 14:15:00 +0100" startDate="2025-05-28 14:00:00 +0100" endDate="2025-05-28 14:15:00 +0100" value="234"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count" creationDate="2025-05-28 14:30:00 +0100" startDate="2025-05-28 14:15:00 +0100" endDate="2025-05-28 14:30:00 +0100" value="456"/>
  
  <!-- Blood Pressure Correlation -->
- <Correlation type="HKCorrelationTypeIdentifierBloodPressure" sourceName="Health" sourceVersion="17.3" creationDate="2024-01-10 12:52:42 +0100" startDate="2024-01-10 11:30:00 +0100" endDate="2024-01-10 11:30:00 +0100">
+ <Correlation type="HKCorrelationTypeIdentifierBloodPressure" sourceName="Health" sourceVersion="17.3" creationDate="2025-05-23 12:52:42 +0100" startDate="2025-05-23 11:30:00 +0100" endDate="2025-05-23 11:30:00 +0100">
   <MetadataEntry key="HKWasUserEntered" value="1"/>
-  <Record type="HKQuantityTypeIdentifierBloodPressureSystolic" sourceName="Health" sourceVersion="17.3" unit="mmHg" creationDate="2024-01-10 12:52:42 +0100" startDate="2024-01-10 11:30:00 +0100" endDate="2024-01-10 11:30:00 +0100" value="136">
+  <Record type="HKQuantityTypeIdentifierBloodPressureSystolic" sourceName="Health" sourceVersion="17.3" unit="mmHg" creationDate="2025-05-23 12:52:42 +0100" startDate="2025-05-23 11:30:00 +0100" endDate="2025-05-23 11:30:00 +0100" value="136">
    <MetadataEntry key="HKWasUserEntered" value="1"/>
   </Record>
-  <Record type="HKQuantityTypeIdentifierBloodPressureDiastolic" sourceName="Health" sourceVersion="17.3" unit="mmHg" creationDate="2024-01-10 12:52:42 +0100" startDate="2024-01-10 11:30:00 +0100" endDate="2024-01-10 11:30:00 +0100" value="69">
+  <Record type="HKQuantityTypeIdentifierBloodPressureDiastolic" sourceName="Health" sourceVersion="17.3" unit="mmHg" creationDate="2025-05-23 12:52:42 +0100" startDate="2025-05-23 11:30:00 +0100" endDate="2025-05-23 11:30:00 +0100" value="69">
    <MetadataEntry key="HKWasUserEntered" value="1"/>
   </Record>
  </Correlation>
  
  <!-- Sleep Analysis Records -->
- <Record type="HKCategoryTypeIdentifierSleepAnalysis" sourceName="AutoSleep" sourceVersion="6.4.0" creationDate="2020-07-08 08:37:42 +0100" startDate="2020-07-08 01:05:06 +0100" endDate="2020-07-08 08:30:00 +0100" value="HKCategoryValueSleepAnalysisInBed">
+ <Record type="HKCategoryTypeIdentifierSleepAnalysis" sourceName="AutoSleep" sourceVersion="6.4.0" creationDate="2025-04-28 08:37:42 +0100" startDate="2025-04-28 01:05:06 +0100" endDate="2025-04-28 08:30:00 +0100" value="HKCategoryValueSleepAnalysisInBed">
   <MetadataEntry key="HKTimeZone" value="Europe/Zurich"/>
  </Record>
- <Record type="HKCategoryTypeIdentifierSleepAnalysis" sourceName="AutoSleep" sourceVersion="6.4.0" creationDate="2020-07-08 08:37:42 +0100" startDate="2020-07-08 01:15:00 +0100" endDate="2020-07-08 08:30:00 +0100" value="HKCategoryValueSleepAnalysisAsleepUnspecified"/>
+ <Record type="HKCategoryTypeIdentifierSleepAnalysis" sourceName="AutoSleep" sourceVersion="6.4.0" creationDate="2025-04-28 08:37:42 +0100" startDate="2025-04-28 01:15:00 +0100" endDate="2025-04-28 08:30:00 +0100" value="HKCategoryValueSleepAnalysisAsleepUnspecified"/>
  
  <!-- Workout Records -->
- <Workout workoutActivityType="HKWorkoutActivityTypeWalking" duration="88.23378186623255" durationUnit="min" totalDistance="5.234" totalDistanceUnit="km" totalEnergyBurned="342.5" totalEnergyBurnedUnit="Cal" sourceName="Guillaume's Apple Watch" sourceVersion="6.2.5" device="&lt;&lt;HKDevice: 0x533b03430&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:6.2.5&gt;" creationDate="2020-05-27 18:57:19 +0100" startDate="2020-05-27 17:26:15 +0100" endDate="2020-05-27 18:57:18 +0100">
+ <Workout workoutActivityType="HKWorkoutActivityTypeWalking" duration="88.23378186623255" durationUnit="min" totalDistance="5.234" totalDistanceUnit="km" totalEnergyBurned="342.5" totalEnergyBurnedUnit="Cal" sourceName="Guillaume's Apple Watch" sourceVersion="6.2.5" device="&lt;&lt;HKDevice: 0x533b03430&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:6.2.5&gt;" creationDate="2025-05-08 18:57:19 +0100" startDate="2025-05-08 17:26:15 +0100" endDate="2025-05-08 18:57:18 +0100">
   <MetadataEntry key="HKIndoorWorkout" value="0"/>
   <MetadataEntry key="HKAverageMETs" value="5.43210 kcal/hr·kg"/>
-  <WorkoutEvent type="HKWorkoutEventTypePause" date="2020-05-27 17:45:00 +0100"/>
-  <WorkoutEvent type="HKWorkoutEventTypeResume" date="2020-05-27 17:47:30 +0100"/>
-  <WorkoutStatistics type="HKQuantityTypeIdentifierHeartRate" startDate="2020-05-27 17:26:15 +0100" endDate="2020-05-27 18:57:18 +0100" average="92.5" minimum="65" maximum="125" unit="count/min"/>
-  <WorkoutStatistics type="HKQuantityTypeIdentifierActiveEnergyBurned" startDate="2020-05-27 17:26:15 +0100" endDate="2020-05-27 18:57:18 +0100" sum="342.5" unit="Cal"/>
-  <WorkoutRoute sourceName="Guillaume's Apple Watch" sourceVersion="11.2" creationDate="2024-12-13 13:17:22 +0200" startDate="2024-12-13 12:58:33 +0200" endDate="2024-12-13 12:59:02 +0200">
+  <WorkoutEvent type="HKWorkoutEventTypePause" date="2025-05-08 17:45:00 +0100"/>
+  <WorkoutEvent type="HKWorkoutEventTypeResume" date="2025-05-08 17:47:30 +0100"/>
+  <WorkoutStatistics type="HKQuantityTypeIdentifierHeartRate" startDate="2025-05-08 17:26:15 +0100" endDate="2025-05-08 18:57:18 +0100" average="92.5" minimum="65" maximum="125" unit="count/min"/>
+  <WorkoutStatistics type="HKQuantityTypeIdentifierActiveEnergyBurned" startDate="2025-05-08 17:26:15 +0100" endDate="2025-05-08 18:57:18 +0100" sum="342.5" unit="Cal"/>
+  <WorkoutRoute sourceName="Guillaume's Apple Watch" sourceVersion="11.2" creationDate="2025-06-07 13:17:22 +0200" startDate="2025-06-07 12:58:33 +0200" endDate="2025-06-07 12:59:02 +0200">
    <MetadataEntry key="HKMetadataKeySyncVersion" value="2"/>
    <MetadataEntry key="HKMetadataKeySyncIdentifier" value="48F229FA-1BC6-47E6-91BE-BBA6796D5E8C"/>
-   <FileReference path="/workout-routes/route_2024-12-13_11.59am.gpx"/>
+   <FileReference path="/workout-routes/route_2025-06-07_11.59am.gpx"/>
   </WorkoutRoute>
-  <WorkoutRoute sourceName="Guillaume's Apple Watch" sourceVersion="11.2" creationDate="2024-12-13 13:17:22 +0200" startDate="2024-12-13 12:58:33 +0200" endDate="2024-12-13 12:59:02 +0200">
+  <WorkoutRoute sourceName="Guillaume's Apple Watch" sourceVersion="11.2" creationDate="2025-06-07 13:17:22 +0200" startDate="2025-06-07 12:58:33 +0200" endDate="2025-06-07 12:59:02 +0200">
    <MetadataEntry key="HKMetadataKeySyncVersion" value="2"/>
    <MetadataEntry key="HKMetadataKeySyncIdentifier" value="48F229FA-1BC6-47E6-91BE-BBA6796D5E8C"/>
-   <FileReference path="/workout-routes/route_2024-12-13_11.59am.gpx"/>
+   <FileReference path="/workout-routes/route_2025-06-07_11.59am.gpx"/>
   </WorkoutRoute>
  </Workout>
  
- <Workout workoutActivityType="HKWorkoutActivityTypeCycling" duration="28.81272718310356" durationUnit="min" totalDistance="12.5" totalDistanceUnit="km" totalEnergyBurned="289.3" totalEnergyBurnedUnit="Cal" sourceName="Guillaume's Apple Watch" sourceVersion="6.2.5" device="&lt;&lt;HKDevice: 0x533b03430&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:6.2.5&gt;" creationDate="2020-05-28 15:24:12 +0100" startDate="2020-05-28 14:55:22 +0100" endDate="2020-05-28 15:24:11 +0100">
+ <Workout workoutActivityType="HKWorkoutActivityTypeCycling" duration="28.81272718310356" durationUnit="min" totalDistance="12.5" totalDistanceUnit="km" totalEnergyBurned="289.3" totalEnergyBurnedUnit="Cal" sourceName="Guillaume's Apple Watch" sourceVersion="6.2.5" device="&lt;&lt;HKDevice: 0x533b03430&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:6.2.5&gt;" creationDate="2025-05-09 15:24:12 +0100" startDate="2025-05-09 14:55:22 +0100" endDate="2025-05-09 15:24:11 +0100">
   <MetadataEntry key="HKIndoorWorkout" value="0"/>
-  <WorkoutStatistics type="HKQuantityTypeIdentifierHeartRate" startDate="2020-05-28 14:55:22 +0100" endDate="2020-05-28 15:24:11 +0100" average="115.2" minimum="88" maximum="145" unit="count/min"/>
+  <WorkoutStatistics type="HKQuantityTypeIdentifierHeartRate" startDate="2025-05-09 14:55:22 +0100" endDate="2025-05-09 15:24:11 +0100" average="115.2" minimum="88" maximum="145" unit="count/min"/>
  </Workout>
  
  <!-- Activity Summary Records -->
- <ActivitySummary dateComponents="2020-05-27" activeEnergyBurned="547.163" activeEnergyBurnedGoal="680" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="44" appleExerciseTimeGoal="30" appleStandHours="10" appleStandHoursGoal="12"/>
- <ActivitySummary dateComponents="2020-05-28" activeEnergyBurned="732.037" activeEnergyBurnedGoal="680" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="55" appleExerciseTimeGoal="30" appleStandHours="14" appleStandHoursGoal="12"/>
- <ActivitySummary dateComponents="2020-05-29" activeEnergyBurned="824.261" activeEnergyBurnedGoal="680" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="53" appleExerciseTimeGoal="30" appleStandHours="15" appleStandHoursGoal="12"/>
+ <ActivitySummary dateComponents="2025-05-08" activeEnergyBurned="547.163" activeEnergyBurnedGoal="680" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="44" appleExerciseTimeGoal="30" appleStandHours="10" appleStandHoursGoal="12"/>
+ <ActivitySummary dateComponents="2025-05-09" activeEnergyBurned="732.037" activeEnergyBurnedGoal="680" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="55" appleExerciseTimeGoal="30" appleStandHours="14" appleStandHoursGoal="12"/>
+ <ActivitySummary dateComponents="2025-05-10" activeEnergyBurned="824.261" activeEnergyBurnedGoal="680" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="53" appleExerciseTimeGoal="30" appleStandHours="15" appleStandHoursGoal="12"/>
  
  <!-- Additional diverse records -->
- <Record type="HKQuantityTypeIdentifierActiveEnergyBurned" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="Cal" creationDate="2023-11-20 14:30:00 +0100" startDate="2023-11-20 14:00:00 +0100" endDate="2023-11-20 14:30:00 +0100" value="45.3"/>
+ <Record type="HKQuantityTypeIdentifierActiveEnergyBurned" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="Cal" creationDate="2025-05-28 14:30:00 +0100" startDate="2025-05-28 14:00:00 +0100" endDate="2025-05-28 14:30:00 +0100" value="45.3"/>
  
- <Record type="HKQuantityTypeIdentifierBasalEnergyBurned" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="Cal" creationDate="2023-11-20 15:00:00 +0100" startDate="2023-11-20 14:00:00 +0100" endDate="2023-11-20 15:00:00 +0100" value="85.7"/>
+ <Record type="HKQuantityTypeIdentifierBasalEnergyBurned" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="Cal" creationDate="2025-05-28 15:00:00 +0100" startDate="2025-05-28 14:00:00 +0100" endDate="2025-05-28 15:00:00 +0100" value="85.7"/>
  
- <Record type="HKQuantityTypeIdentifierDistanceWalkingRunning" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="km" creationDate="2023-11-20 14:30:00 +0100" startDate="2023-11-20 14:00:00 +0100" endDate="2023-11-20 14:30:00 +0100" value="0.523"/>
+ <Record type="HKQuantityTypeIdentifierDistanceWalkingRunning" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="km" creationDate="2025-05-28 14:30:00 +0100" startDate="2025-05-28 14:00:00 +0100" endDate="2025-05-28 14:30:00 +0100" value="0.523"/>
  
- <Record type="HKCategoryTypeIdentifierAppleStandHour" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" creationDate="2023-11-20 15:00:00 +0100" startDate="2023-11-20 14:00:00 +0100" endDate="2023-11-20 15:00:00 +0100" value="HKCategoryValueAppleStandHourStood"/>
+ <Record type="HKCategoryTypeIdentifierAppleStandHour" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" creationDate="2025-05-28 15:00:00 +0100" startDate="2025-05-28 14:00:00 +0100" endDate="2025-05-28 15:00:00 +0100" value="HKCategoryValueAppleStandHourStood"/>
  
- <Record type="HKCategoryTypeIdentifierMindfulSession" sourceName="Breathe" sourceVersion="1.0" creationDate="2023-11-20 16:00:00 +0100" startDate="2023-11-20 15:55:00 +0100" endDate="2023-11-20 16:00:00 +0100" value="HKCategoryValueNotApplicable"/>
+ <Record type="HKCategoryTypeIdentifierMindfulSession" sourceName="Breathe" sourceVersion="1.0" creationDate="2025-05-28 16:00:00 +0100" startDate="2025-05-28 15:55:00 +0100" endDate="2025-05-28 16:00:00 +0100" value="HKCategoryValueNotApplicable"/>
  
- <Record type="HKQuantityTypeIdentifierBodyFatPercentage" sourceName="Health" sourceVersion="17.3" unit="%" creationDate="2024-01-10 09:00:00 +0100" startDate="2024-01-10 09:00:00 +0100" endDate="2024-01-10 09:00:00 +0100" value="18.5">
+ <Record type="HKQuantityTypeIdentifierBodyFatPercentage" sourceName="Health" sourceVersion="17.3" unit="%" creationDate="2025-05-23 09:00:00 +0100" startDate="2025-05-23 09:00:00 +0100" endDate="2025-05-23 09:00:00 +0100" value="18.5">
   <MetadataEntry key="HKWasUserEntered" value="1"/>
  </Record>
  
- <Record type="HKQuantityTypeIdentifierHeight" sourceName="Health" sourceVersion="17.3" unit="cm" creationDate="2023-12-01 10:00:00 +0100" startDate="2023-12-01 10:00:00 +0100" endDate="2023-12-01 10:00:00 +0100" value="180">
+ <Record type="HKQuantityTypeIdentifierHeight" sourceName="Health" sourceVersion="17.3" unit="cm" creationDate="2025-04-08 10:00:00 +0100" startDate="2025-04-08 10:00:00 +0100" endDate="2025-04-08 10:00:00 +0100" value="180">
   <MetadataEntry key="HKWasUserEntered" value="1"/>
  </Record>
  
- <Record type="HKQuantityTypeIdentifierRestingHeartRate" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count/min" creationDate="2023-11-21 07:00:00 +0100" startDate="2023-11-20 00:00:00 +0100" endDate="2023-11-21 00:00:00 +0100" value="52"/>
+ <Record type="HKQuantityTypeIdentifierRestingHeartRate" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="count/min" creationDate="2025-05-29 07:00:00 +0100" startDate="2025-05-28 00:00:00 +0100" endDate="2025-05-29 00:00:00 +0100" value="52"/>
  
- <Record type="HKQuantityTypeIdentifierVO2Max" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="mL/kg·min" creationDate="2023-11-20 18:00:00 +0100" startDate="2023-11-20 17:26:15 +0100" endDate="2023-11-20 18:00:00 +0100" value="45.2">
+ <Record type="HKQuantityTypeIdentifierVO2Max" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="mL/kg·min" creationDate="2025-05-28 18:00:00 +0100" startDate="2025-05-28 17:26:15 +0100" endDate="2025-05-28 18:00:00 +0100" value="45.2">
   <MetadataEntry key="HKVO2MaxTestType" value="2"/>
  </Record>
  
- <Record type="HKQuantityTypeIdentifierAppleSleepingWristTemperature" sourceName="Guillaume's Apple Watch" sourceVersion="10.0" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch6,2, software:10.0&gt;" unit="degC" creationDate="2023-11-21 07:30:00 +0100" startDate="2023-11-21 01:00:00 +0100" endDate="2023-11-21 07:00:00 +0100" value="0.23">
+ <Record type="HKQuantityTypeIdentifierAppleSleepingWristTemperature" sourceName="Guillaume's Apple Watch" sourceVersion="10.0" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch6,2, software:10.0&gt;" unit="degC" creationDate="2025-05-29 07:30:00 +0100" startDate="2025-05-29 01:00:00 +0100" endDate="2025-05-29 07:00:00 +0100" value="0.23">
   <MetadataEntry key="HKSleepingWristTemperatureSourceType" value="0"/>
  </Record>
  
- <Record type="HKQuantityTypeIdentifierHeartRateVariabilitySDNN" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="ms" creationDate="2023-11-20 08:00:00 +0100" startDate="2023-11-20 07:55:00 +0100" endDate="2023-11-20 08:00:00 +0100" value="45.3">
+ <Record type="HKQuantityTypeIdentifierHeartRateVariabilitySDNN" sourceName="Guillaume's Apple Watch" sourceVersion="9.6.3" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch4,4, software:9.6.3&gt;" unit="ms" creationDate="2025-05-28 08:00:00 +0100" startDate="2025-05-28 07:55:00 +0100" endDate="2025-05-28 08:00:00 +0100" value="45.3">
  <HeartRateVariabilityMetadataList>
   <InstantaneousBeatsPerMinute bpm="72" time="7:47:41.86 PM"/>
   <InstantaneousBeatsPerMinute bpm="68" time="7:47:53.78 PM"/>
  </HeartRateVariabilityMetadataList>
 </Record>
  
- <Record type="HKQuantityTypeIdentifierOxygenSaturation" sourceName="Health" sourceVersion="17.3" unit="%" creationDate="2024-01-10 10:00:00 +0100" startDate="2024-01-10 10:00:00 +0100" endDate="2024-01-10 10:00:00 +0100" value="98">
+ <Record type="HKQuantityTypeIdentifierOxygenSaturation" sourceName="Health" sourceVersion="17.3" unit="%" creationDate="2025-05-23 10:00:00 +0100" startDate="2025-05-23 10:00:00 +0100" endDate="2025-05-23 10:00:00 +0100" value="98">
   <MetadataEntry key="HKWasUserEntered" value="1"/>
  </Record>
  
- <Record type="HKQuantityTypeIdentifierRespiratoryRate" sourceName="Guillaume's Apple Watch" sourceVersion="10.0" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch6,2, software:10.0&gt;" unit="count/min" creationDate="2023-11-21 07:00:00 +0100" startDate="2023-11-21 01:00:00 +0100" endDate="2023-11-21 07:00:00 +0100" value="14.5"/>
+ <Record type="HKQuantityTypeIdentifierRespiratoryRate" sourceName="Guillaume's Apple Watch" sourceVersion="10.0" device="&lt;&lt;HKDevice: 0x533ad2350&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch6,2, software:10.0&gt;" unit="count/min" creationDate="2025-05-29 07:00:00 +0100" startDate="2025-05-29 01:00:00 +0100" endDate="2025-05-29 07:00:00 +0100" value="14.5"/>
  
 </HealthData>
