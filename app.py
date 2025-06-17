@@ -38,7 +38,7 @@ def create_interface():
                 info="Enter a name for your health data project (lowercase, no spaces)"
             )
             
-            create_btn = gr.Button("Create Landing Zone", variant="primary")
+            create_btn = gr.Button("Create Private MCP Server", variant="primary")
             create_status = gr.Markdown("")
         
         def create_health_landing_zone(file_path: str, project_name: str, oauth_token: gr.OAuthToken | None) -> str:
