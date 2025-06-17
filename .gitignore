@@ -9,3 +9,7 @@ wheels/
 # Virtual environments
 .venv
 .DS_Store
+
+# Database files (generated dynamically)
+data/health_data.db
+*.db
