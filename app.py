@@ -57,7 +57,7 @@ def create_interface():
                 return "❌ Please enter a project name!"
             
             try:
-                if progress:
+                if progress is not None:
                     progress(0.1, desc="🔐 Authenticating...")
                 # Use the OAuth token
                 token = oauth_token.token
@@ -74,7 +74,7 @@ def create_interface():
                 dataset_repo_id = f"{username}/{project_name}-data"
                 space_repo_id = f"{username}/{project_name}-mcp"
                 
-                if progress:
+                if progress is not None:
                     progress(0.2, desc="🔍 Checking repository availability...")
                 # Check if repositories already exist
                 try:
@@ -89,7 +89,7 @@ def create_interface():
                 except RepositoryNotFoundError:
                     pass
                 
-                if progress:
+                if progress is not None:
                     progress(0.3, desc="📊 Creating private dataset...")
                 # Create the private dataset
                 dataset_url = create_repo(
@@ -99,7 +99,7 @@ def create_interface():
                     token=token
                 )
                 
-                if progress:
+                if progress is not None:
                     progress(0.4, desc="📤 Uploading export.xml...")
                 # Upload the export.xml file (first commit)
                 api.upload_file(
@@ -111,7 +111,7 @@ def create_interface():
                     commit_message="Initial upload: export.xml"
                 )
                 
-                if progress:
+                if progress is not None:
                     progress(0.5, desc="📝 Creating dataset documentation...")
                 # Create README for dataset
                 dataset_readme = f"""# Apple Health Data
@@ -137,7 +137,7 @@ This dataset is private and contains personal health information. Do not share a
                     token=token
                 )
                 
-                if progress:
+                if progress is not None:
                     progress(0.6, desc="🚀 Creating MCP server space...")
                 # Create the MCP server space
                 space_url = create_repo(
@@ -148,7 +148,7 @@ This dataset is private and contains personal health information. Do not share a
                     token=token
                 )
                 
-                if progress:
+                if progress is not None:
                     progress(0.7, desc="📦 Uploading MCP server code...")
                 # Read MCP server code from mcp_server.py 
                 with open('mcp_server.py', 'r') as f:
@@ -163,7 +163,7 @@ This dataset is private and contains personal health information. Do not share a
                     token=token
                 )
                 
-                if progress:
+                if progress is not None:
                     progress(0.8, desc="📚 Uploading parser dependencies...")
                 # Upload parser dependencies for auto-parsing functionality
                 api.upload_file(
@@ -198,7 +198,7 @@ This dataset is private and contains personal health information. Do not share a
                     token=token
                 )
                 
-                if progress:
+                if progress is not None:
                     progress(0.85, desc="📋 Creating requirements...")
                 # Create requirements.txt for the space
                 requirements_content = """gradio>=5.34.0
@@ -217,7 +217,7 @@ tqdm>=4.64.0
                     token=token
                 )
                 
-                if progress:
+                if progress is not None:
                     progress(0.9, desc="🔧 Configuring environment variables...")
                 # Create space variables for the dataset repo ID
                 api.add_space_variable(
@@ -227,7 +227,7 @@ tqdm>=4.64.0
                     token=token
                 )
                 
-                if progress:
+                if progress is not None:
                     progress(0.95, desc="🔐 Setting up secure access...")
                 # Add the token as a secret for dataset access
                 api.add_space_secret(
@@ -237,7 +237,7 @@ tqdm>=4.64.0
                     token=token
                 )
                 
-                if progress:
+                if progress is not None:
                     progress(1.0, desc="✅ Complete!")
                 return f"""✅ Successfully created your Private Apple Health Dataset and MCP Server!
 
