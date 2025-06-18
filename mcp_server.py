@@ -210,13 +210,16 @@ with gr.Blocks(title="Apple Health MCP Server") as demo:
                     "apple-health": {{
                         "command": "npx",
                         "args": [
-                            "mcp-remote",
+                            "-y",
+                            "mcp-remote@latest",
                             "https://huggingface.co/spaces/{space_id}/gradio_api/mcp/sse",
+                            "--transport",
+                            "sse-only",
                             "--header",
-                            "Authorization:${{AUTH_HEADER}}"
+                            "Authorization: Bearer {HF_TOKEN}"
                         ],
                         "env": {{
-                            "AUTH_HEADER": "Bearer YOUR_HF_TOKEN_HERE"
+                            "PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
                         }}
                     }}
                 }}
