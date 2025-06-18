@@ -41,7 +41,7 @@ def create_interface():
             create_btn = gr.Button("Create Private MCP Server", variant="primary")
             create_status = gr.Markdown("")
         
-        def create_health_landing_zone_with_progress(file_path: str, project_name: str, oauth_token: gr.OAuthToken | None, progress=gr.Progress()) -> str:
+        def create_health_landing_zone_with_progress(file_path: str, project_name: str, oauth_token: gr.OAuthToken | None, progress=gr.Progress(track_tqdm=True)) -> str:
             """Wrapper function with progress tracking."""
             return create_health_landing_zone(file_path, project_name, oauth_token, progress)
         
@@ -284,8 +284,7 @@ Both repositories are private and only accessible by you.
         ).then(
             fn=create_health_landing_zone_with_progress,
             inputs=[file_input, space_name_input],
-            outputs=[create_status],
-            show_progress="full"
+            outputs=[create_status]
         ).then(
             fn=lambda: gr.update(interactive=True),
             outputs=[create_btn]
