@@ -256,7 +256,9 @@ Both repositories are private and only accessible by you.
 """
                 
             except Exception as e:
-                return f"❌ Error creating landing zone: {str(e)}"
+                import traceback
+                error_details = traceback.format_exc()
+                return f"❌ Error creating landing zone: {str(e)}\n\nDetails:\n```\n{error_details}\n```"
         
         def update_ui(profile: gr.OAuthProfile | None) -> tuple:
             """Update UI based on login status."""
