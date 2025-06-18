@@ -40,7 +40,6 @@ def create_interface():
             
             create_btn = gr.Button("Create Private MCP Server", variant="primary")
             create_status = gr.Markdown("")
-            progress_bar = gr.Markdown(visible=False)
         
         def create_health_landing_zone(file_path: str, project_name: str, oauth_token: gr.OAuthToken | None, progress=gr.Progress()) -> str:
             """Create private dataset and MCP server space for Apple Health data."""
@@ -229,7 +228,7 @@ tqdm>=4.64.0
 **Private Dataset:** [{dataset_repo_id}]({dataset_url})
 - Your export.xml file has been securely uploaded.
 - A SQLite database (health_data.db) will be generated from your data as soon as the MCP Server Space starts.
-- Note: it might take several minutes (up to 1 hour or more) depeding on the size of your export.xml file.
+- Note: it might take several minutes (up to 1 hour or more) to parse your health data depending on the size of your export.xml file.
 
 **MCP Server Space:** [{space_repo_id}]({space_url})
 - Query interface for your health data using SQLite
@@ -267,7 +266,8 @@ Both repositories are private and only accessible by you.
         ).then(
             fn=create_health_landing_zone,
             inputs=[file_input, space_name_input],
-            outputs=[create_status]
+            outputs=[create_status],
+            show_progress="full"
         ).then(
             fn=lambda: gr.update(interactive=True),
             outputs=[create_btn]
