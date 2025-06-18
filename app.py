@@ -224,20 +224,21 @@ tqdm>=4.64.0
                 )
                 
                 progress(1.0, desc="✅ Complete!")
-                return f"""✅ Successfully created Apple Health Landing Zone!
+                return f"""✅ Successfully created your Private Apple Health Dataset and MCP Server!
 
 **Private Dataset:** [{dataset_repo_id}]({dataset_url})
-- Your export.xml file has been securely uploaded
-- SQLite database (health_data.db) has been generated from your data
+- Your export.xml file has been securely uploaded.
+- A SQLite database (health_data.db) will be generated from your data as soon as the MCP Server Space starts.
+- Note: it might take several minutes (up to 1 hour or more) depeding on the size of your export.xml file.
 
 **MCP Server Space:** [{space_repo_id}]({space_url})
 - Query interface for your health data using SQLite
 - MCP endpoint configuration included
 - Environment variables automatically configured
-- Fine-grained access token created for secure dataset access
+- It will work until expiration of your oauth token, to make it work permanently, create a new fine-grained token with `read` and `write` permissions to your private health dataset and set it as `HF_TOKEN` secret in the MCP Server Space.
 
 Both repositories are private and only accessible by you.
-The MCP server uses a dedicated token with limited permissions for enhanced security."""
+"""
                 
             except Exception as e:
                 return f"❌ Error creating landing zone: {str(e)}"
